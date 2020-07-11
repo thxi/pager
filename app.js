@@ -1,0 +1,59 @@
+import log4js from 'log4js';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import { Mutex } from 'async-mutex';
+
+import { getPage } from './src/main.js';
+
+// todo use flags to change log level
+const log = log4js.getLogger();
+log.level = 'debug';
+
+// todo use multiple workers on 1 instance
+const mutex = new Mutex();
+
+const app = express();
+const port = process.env.PORT || 4000;
+// adding Helmet to enhance your API's security
+app.use(helmet());
+// using bodyParser to parse JSON bodies into JS objects
+app.use(bodyParser.json());
+// enabling CORS for all requests
+app.use(cors());
+
+morgan.token('body', (req) => JSON.stringify(req.body));
+// adding morgan to log HTTP requests
+app.use(
+  morgan(
+    ':remote-addr [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":user-agent" ":body"'
+  )
+);
+
+app.post('/html/', async (req, res) => {
+  // todo error on wrong url
+
+  const { url, scrollCount, scrollDelay } = req.body;
+
+  if (!url) {
+    res.statusCode = 400;
+    res.json({ error: 'url should be specified' });
+    return;
+  }
+
+  const release = await mutex.acquire();
+  try {
+    log.info(`processing url: ${url}`);
+    // todo probably handle request cancel
+    const html = await getPage(url, scrollCount, scrollDelay);
+    res.json({ url, html });
+  } catch (error) {
+    log.error(`error processing url: ${error}`);
+  } finally {
+    release();
+  }
+});
+
+app.listen(port, () => log.info(`Example app listening at :${port}`));

@@ -1,0 +1,13 @@
+{
+  "root": true,
+  "extends": "airbnb-base",
+  "parserOptions": { "sourceType": "module" },
+  "rules": {
+    // "no-console": "off",
+    "implicit-arrow-linebreak": "off",
+    "comma-dangle": "off",
+    "function-paren-newline": "off",
+    "import/extensions": "off",
+    "no-console": "off"
+  }
+}

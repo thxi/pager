@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { Mutex } from 'async-mutex';
+import { Semaphore } from 'async-mutex';
 
 import { getPage } from './src/main.js';
 
@@ -12,8 +12,8 @@ import { getPage } from './src/main.js';
 const log = log4js.getLogger();
 log.level = 'debug';
 
-// todo use multiple workers on 1 instance
-const mutex = new Mutex();
+// todo set up an env paremeter
+const semaphore = new Semaphore(100);
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -43,7 +43,7 @@ app.post('/html/', async (req, res) => {
     return;
   }
 
-  const release = await mutex.acquire();
+  const release = (await semaphore.acquire())[1];
   try {
     log.info(`processing url: ${url}`);
     // todo probably handle request cancel

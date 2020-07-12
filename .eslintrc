@@ -7,7 +7,6 @@
     "implicit-arrow-linebreak": "off",
     "comma-dangle": "off",
     "function-paren-newline": "off",
-    "import/extensions": "off",
-    "no-console": "off"
+    "import/extensions": "off"
   }
 }

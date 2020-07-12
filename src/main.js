@@ -1,3 +1,4 @@
+import log4js from 'log4js';
 import puppeteer from 'puppeteer';
 
 async function scrollPage(page, scrollsCount = 2, scrollDelay = 3000) {
@@ -17,7 +18,6 @@ async function scrollPage(page, scrollsCount = 2, scrollDelay = 3000) {
         { timeout: scrollDelay }
       );
       scrolls += 1;
-      console.log('scrolled');
     }
     /* eslint-disable no-empty */
   } catch (e) {}
@@ -27,12 +27,14 @@ async function scrollPage(page, scrollsCount = 2, scrollDelay = 3000) {
 // TODO create a user in a docker container
 const browser = puppeteer.launch({ args: ['--no-sandbox'] });
 
+const log = log4js.getLogger();
+
 const getPage = async (url, maxScrolls, scrollDelay) => {
   const b = await browser;
   const page = await b.newPage();
 
   page.on('domcontentloaded', async () => {
-    console.log('loaded');
+    log.info(`loaded ${url}`);
   });
 
   await page.goto(url);

@@ -17,16 +17,19 @@ async function scrollPage(page, scrollsCount = 2, scrollDelay = 3000) {
         { timeout: scrollDelay }
       );
       scrolls += 1;
+      console.log('scrolled');
     }
     /* eslint-disable no-empty */
   } catch (e) {}
 }
 
+// temporary solution for running as root in a docker container
+// TODO create a user in a docker container
+const browser = puppeteer.launch({ args: ['--no-sandbox'] });
+
 const getPage = async (url, maxScrolls, scrollDelay) => {
-  // temporary solution for running as root in a docker container
-  // TODO create a user in a docker container
-  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
-  const page = await browser.newPage();
+  const b = await browser;
+  const page = await b.newPage();
 
   page.on('domcontentloaded', async () => {
     console.log('loaded');
@@ -42,7 +45,7 @@ const getPage = async (url, maxScrolls, scrollDelay) => {
   // todo make cleaner
   const html = await page.$eval('html', (e) => e.outerHTML);
 
-  await browser.close();
+  await page.close();
   return html;
 };
 

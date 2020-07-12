@@ -1,5 +1,6 @@
 import log4js from 'log4js';
 import puppeteer from 'puppeteer';
+import { Mutex } from 'async-mutex';
 
 async function scrollPage(page, scrollsCount = 2, scrollDelay = 3000) {
   let scrolls = 0;
@@ -33,14 +34,19 @@ const getPage = async (url, maxScrolls, scrollDelay) => {
   const b = await browser;
   const page = await b.newPage();
 
+  const mu = new Mutex();
+  const release = await mu.acquire();
+
   page.on('domcontentloaded', async () => {
+    release();
     log.info(`loaded ${url}`);
   });
 
   await page.goto(url);
 
   // todo remove somehow connect to domcontentloaded
-  await page.waitFor(1000);
+  mu.acquire();
+  log.info('after waiting');
 
   await scrollPage(page, maxScrolls, scrollDelay);
 

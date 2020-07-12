@@ -13,6 +13,7 @@ const log = log4js.getLogger();
 log.level = 'debug';
 
 // todo set up an env paremeter
+// and better, use a page pool
 const semaphore = new Semaphore(100);
 
 const app = express();

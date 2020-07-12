@@ -2,7 +2,7 @@ all: correct incorrect
 
 load:
 	cat vegeta/targets.txt | \
-		vegeta attack -rate 100 -duration 1m -format http -output=vegeta/out.bin
+		vegeta attack -rate 100 -duration 20s -format http -output=vegeta/out.bin
 
 plot:
 	vegeta plot -output vegeta/plot.html < vegeta/out.bin

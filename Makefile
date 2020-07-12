@@ -10,6 +10,8 @@ plot:
 report:
 	vegeta report < vegeta/out.bin
 
+docker:
+	docker run -p4000:4000 --network="host" pager 
 
 correct:
 	curl -vvv -X POST -H 'Content-Type: application/json' \

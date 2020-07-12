@@ -15,6 +15,7 @@ npm start
 - [ ] set up github ci (see gitlab-ci)
 - [ ] do a proper setup of the docker container (dumb-init, user permissions, alpine, envs (NODE_ENV))
 - [ ] use something like [snyk.io](https://snyk.io/)
+- [ ] profile application, check for memory leaks in chrome
 - [ ] steal ideas from [headless-chrome-crawler](https://github.com/yujiosaka/headless-chrome-crawler)
 - [ ] expose interface as a library
 - [ ] move

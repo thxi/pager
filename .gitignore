@@ -1,1 +1,4 @@
 node_modules
+
+vegeta/out.bin
+vegeta/plot.html

@@ -1,4 +1,3 @@
-import log4js from 'log4js';
 import puppeteer from 'puppeteer';
 import { Mutex } from 'async-mutex';
 
@@ -28,8 +27,6 @@ async function scrollPage(page, scrollsCount = 2, scrollDelay = 3000) {
 // TODO create a user in a docker container
 const browser = puppeteer.launch({ args: ['--no-sandbox'] });
 
-const log = log4js.getLogger();
-
 const getPage = async (url, maxScrolls, scrollDelay) => {
   const b = await browser;
   const page = await b.newPage();
@@ -39,14 +36,12 @@ const getPage = async (url, maxScrolls, scrollDelay) => {
 
   page.on('domcontentloaded', async () => {
     release();
-    log.info(`loaded ${url}`);
   });
 
   await page.goto(url);
 
   // todo remove somehow connect to domcontentloaded
   mu.acquire();
-  log.info('after waiting');
 
   await scrollPage(page, maxScrolls, scrollDelay);
 

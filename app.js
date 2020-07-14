@@ -1,5 +1,6 @@
 import log4js from 'log4js';
 import express from 'express';
+import client from 'prom-client';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -15,6 +16,16 @@ log.level = 'debug';
 // todo set up an env paremeter
 // and better, use a page pool
 const semaphore = new Semaphore(100);
+
+// prometheus
+const { collectDefaultMetrics } = client;
+const { register } = client;
+collectDefaultMetrics();
+const gauge = new client.Gauge({
+  name: 'pages',
+  help: 'the number of open pages',
+});
+gauge.set(0);
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -45,8 +56,9 @@ app.post('/html/', async (req, res) => {
   }
 
   const release = (await semaphore.acquire())[1];
+  gauge.inc(1);
   try {
-    log.info(`processing url: ${url}`);
+    // log.info(`processing url: ${url}`);
     // todo probably handle request cancel
     const html = await getPage(url, scrollCount, scrollDelay);
     res.json({ url, html });
@@ -54,6 +66,16 @@ app.post('/html/', async (req, res) => {
     log.error(`error processing url: ${error}`);
   } finally {
     release();
+    gauge.dec(1);
+  }
+});
+
+app.get('/metrics', async (req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+  } catch (ex) {
+    res.status(500).end(ex);
   }
 });
 

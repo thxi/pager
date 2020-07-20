@@ -1,6 +1,6 @@
 all: correct incorrect
 
-docker:
+docker-run:
 	docker run -p4000:4000 --network="host" pager 
 
 docker-build:
@@ -22,17 +22,7 @@ incorrect:
 	curl -vvv -X POST -H 'Content-Type: application/json' \
 	-d'{"not_url":"https://example.com/"}' http://localhost:4000/html/
 
-load:
-	cat vegeta/targets.txt | \
-		vegeta attack -rate 90 -duration 1m -format http -output=vegeta/out.bin
-
-plot:
-	vegeta plot -output vegeta/plot.html < vegeta/out.bin
-
-report:
-	vegeta report < vegeta/out.bin
-
-run-prometheus:
+prometheus-run:
 	docker run \
 		-p 9090:9090 \
 		-v `pwd`/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \

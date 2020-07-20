@@ -12,7 +12,8 @@ npm start
 
 # TODO
 
-- [ ] do a proper setup of the docker container (dumb-init, user permissions, alpine, envs (NODE_ENV))
+- [x] do a proper setup of the docker container (dumb-init, user permissions, node ver, envs (NODE_ENV))
+- [ ] better logging
 - [ ] use something like [snyk.io](https://snyk.io/)
 - [ ] profile application, check for memory leaks in chrome
 - [ ] steal ideas from [headless-chrome-crawler](https://github.com/yujiosaka/headless-chrome-crawler)

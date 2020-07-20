@@ -1,11 +1,13 @@
 # yes I use latest
-FROM node:latest
+FROM node:14.5.0-stretch
 
 WORKDIR /src/app
 
 # why?
 ENV NODE_ENV production
 
+RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64
+RUN chmod +x /usr/local/bin/dumb-init
 
 # Install Node.js dependencies
 COPY package*.json ./
@@ -18,4 +20,10 @@ COPY . .
 
 EXPOSE 4000
 
+RUN useradd -ms /bin/bash pager
+
+USER pager
+
+# Runs "/usr/bin/dumb-init -- /my/script --with --args"
+ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["npm", "start"]

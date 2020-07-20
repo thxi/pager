@@ -64,6 +64,8 @@ app.post('/html/', async (req, res) => {
     res.json({ url, html });
   } catch (error) {
     log.error(`error processing url: ${error}`);
+    // express does not have predefined constants for status codes...
+    res.status(500).send('something went wrong');
   } finally {
     release();
     gauge.dec(1);

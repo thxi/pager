@@ -38,6 +38,7 @@ See [this SO answer](https://security.stackexchange.com/a/227147).
 - [ ] steal ideas from [headless-chrome-crawler](https://github.com/yujiosaka/headless-chrome-crawler)
 - [x] do a proper setup of the docker container (dumb-init, user permissions, node ver, envs (NODE_ENV))
 - [ ] expose interface as a library
+- [ ] add web API documentation
 - [x] incognito
 - [ ] better logging
 - [ ] better error handling with browser restarts

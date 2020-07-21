@@ -1,4 +1,4 @@
-all: correct incorrect
+examples: correct incorrect scroll delay
 
 docker-run:
 	docker run -p4000:4000 \

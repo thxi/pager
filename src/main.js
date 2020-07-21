@@ -50,6 +50,7 @@ const browser = puppeteer.launch({ args: ['--incognito'] }).catch((err) => {
   process.exit(1);
 });
 
+// I think using POST request is semantically incorrect, but who cares...
 app.post('/html/', async (req, res) => {
   // todo error on wrong url
 

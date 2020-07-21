@@ -21,7 +21,7 @@ make docker-run
 
 Note that this runs container on the host network so that the API is exposed to the host system.
 
-# Limitations
+# Potential problems
 
 ## Memory leak
 
@@ -38,10 +38,9 @@ See [this SO answer](https://security.stackexchange.com/a/227147).
 - [ ] steal ideas from [headless-chrome-crawler](https://github.com/yujiosaka/headless-chrome-crawler)
 - [x] do a proper setup of the docker container (dumb-init, user permissions, node ver, envs (NODE_ENV))
 - [ ] expose interface as a library
-- [ ] incognito
+- [x] incognito
 - [ ] better logging
 - [ ] better error handling with browser restarts
-- [ ] use something like [snyk.io](https://snyk.io/)
 - [x] profile application, check for memory leaks in chrome
 - [ ] set up github ci (see gitlab-ci)
 

@@ -45,7 +45,7 @@ app.use(
   )
 );
 
-const browser = puppeteer.launch().catch((err) => {
+const browser = puppeteer.launch({ args: ['--incognito'] }).catch((err) => {
   log.error(`error starting browser: ${err}`);
   process.exit(1);
 });

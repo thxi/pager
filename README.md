@@ -5,9 +5,18 @@ Supports **SPA**s and pages with dynamic content
 
 # Run
 
+## Locally:
+
 ```bash
 npm install
 npm start
+```
+
+## Docker
+
+```bash
+make docker-build
+make docker-run
 ```
 
 # TODO

@@ -9,14 +9,21 @@ import morgan from 'morgan';
 import { Semaphore } from 'async-mutex';
 
 import { getPage } from './browser.js';
+import flag from './flags.js';
 
 // todo use flags to change log level
 const log = log4js.getLogger();
-log.level = 'debug';
+log.level = flag.logLevel;
+
+const numPages = Number.parseInt(flag.pages, 10);
+if (Number.isNaN(numPages)) {
+  log.error('could not parse the --pages argument');
+  process.exit(1);
+}
 
 // todo set up an env paremeter
 // and better, use a page pool
-const semaphore = new Semaphore(100);
+const semaphore = new Semaphore(numPages);
 
 // prometheus
 const { collectDefaultMetrics } = client;

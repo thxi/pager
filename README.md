@@ -58,6 +58,34 @@ Example:
 }
 ```
 
+# Configuration
+
+To configure the app, pass flags to the program:
+
+```
+Options:
+  -p, --pages <number>     maximum number of open pages (default: "100")
+  -l, --log-level <level>  log level;
+                           Available values are:
+                           ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < MARK < OFF  (default: "ALL")
+  -h, --help               display help for command
+```
+
+For example,
+
+```bash
+npm start -- -p 228 --log-level ALL
+```
+
+or with docker:
+
+```bash
+# do not forget the seccomp profile
+docker run -p4000:4000 \
+  --security-opt seccomp=`pwd`/chrome.json \
+  pager -- -p 228 --log-level ALL
+```
+
 # Potential problems
 
 ## Memory leak
@@ -72,10 +100,8 @@ See [this SO answer](https://security.stackexchange.com/a/227147).
 
 # TODO
 
-- [x] do a proper setup of the docker container (dumb-init, user permissions, node ver, envs (NODE_ENV))
 - [ ] expose interface as a library
 - [ ] add web API documentation
-- [x] incognito
 - [ ] better logging
 - [ ] better error handling with browser restarts
 - [ ] set up github ci (see gitlab-ci)

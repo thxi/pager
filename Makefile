@@ -4,7 +4,7 @@ docker-run:
 	docker run -p4000:4000 \
 		--network="host" \
 		--security-opt seccomp=`pwd`/chrome.json \
-		pager 
+		pager -- -p 100 --log-level ALL
 
 docker-build:
 	docker build -t pager .

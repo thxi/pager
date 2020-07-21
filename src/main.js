@@ -45,10 +45,10 @@ app.use(
   )
 );
 
-// temporary solution for running as root in a docker container
-// TODO create a user in a docker container
-const browser = puppeteer.launch({ args: ['--no-sandbox'] });
-// const browser = puppeteer.launch();
+const browser = puppeteer.launch().catch((err) => {
+  log.error(`error starting browser: ${err}`);
+  process.exit(1);
+});
 
 app.post('/html/', async (req, res) => {
   // todo error on wrong url

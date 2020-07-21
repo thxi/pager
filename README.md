@@ -19,19 +19,33 @@ make docker-build
 make docker-run
 ```
 
+Note that this runs container on the host network so that the API is exposed to the host system.
+
+# Limitations
+
+## Memory leak
+
+Memory leaks might be caused by chromium.
+See [this issue](https://github.com/puppeteer/puppeteer/issues/5893) for more information
+
+## Security
+
+For now I'm using a custom [seccomp profile](https://github.com/Zenika/alpine-chrome#-the-best-with-seccomp).
+See [this SO answer](https://security.stackexchange.com/a/227147).
+
 # TODO
 
 - [ ] steal ideas from [headless-chrome-crawler](https://github.com/yujiosaka/headless-chrome-crawler)
 - [x] do a proper setup of the docker container (dumb-init, user permissions, node ver, envs (NODE_ENV))
+- [ ] expose interface as a library
+- [ ] incognito
 - [ ] better logging
 - [ ] better error handling with browser restarts
 - [ ] use something like [snyk.io](https://snyk.io/)
-- [ ] profile application, check for memory leaks in chrome
-- [ ] expose interface as a library
+- [x] profile application, check for memory leaks in chrome
 - [ ] set up github ci (see gitlab-ci)
-- [ ] clean code
 
-# Test
+# Testing
 
 For now i just use curl to test the functionality.
 Comprehensive unit tests will be added later

@@ -1,7 +1,10 @@
 all: correct incorrect
 
 docker-run:
-	docker run -p4000:4000 --network="host" pager 
+	docker run -p4000:4000 \
+		--network="host" \
+		--security-opt seccomp=`pwd`/chrome.json \
+		pager 
 
 docker-build:
 	docker build -t pager .

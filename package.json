@@ -14,10 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "async-mutex": "^0.2.2",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "commander": "^6.0.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "helmet": "^3.22.0",
     "log4js": "^6.3.0",
     "morgan": "^1.10.0",
